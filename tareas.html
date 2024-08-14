@@ -1,0 +1,180 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gestión de Empleados y Tareas</title>
+    <!-- BOOTSTRAP STYLES-->
+    <link href="assets/css/bootstrap.css" rel="stylesheet" />
+    <!-- FONTAWESOME STYLES-->
+    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <!-- CUSTOM STYLES-->
+    <link href="assets/css/custom.css" rel="stylesheet" />
+    <!-- GOOGLE FONTS-->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+</head>
+<body>
+    <div id="wrapper">
+        <nav class="navbar navbar-default navbar-cls-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="index.html">Binary Admin</a>
+            </div>
+            <div style="color: white; padding: 15px 50px 5px 50px; float: right; font-size: 16px;">
+                Último acceso: 30 May 2014 &nbsp; <a href="#" class="btn btn-danger square-btn-adjust">Cerrar sesión</a>
+            </div>
+        </nav>
+        <!-- /. NAV TOP  -->
+        <nav class="navbar-default navbar-side" role="navigation">
+            <div class="sidebar-collapse">
+                <ul class="nav" id="main-menu">
+                    <li>
+                        <a href="index.html"><i class="fa fa-dashboard"></i> Inicio</a>
+                    </li>
+                    <li>
+                        <a href="empleados.html"><i class="fa fa-user"></i> Empleados</a>
+                    </li>
+                    <li>
+                        <a class="active-menu" href="tareas.html"><i class="fa fa-tasks"></i> Tareas</a>
+                    </li>
+                    <li>
+                        <a href="mensajes.html"><i class="fa fa-envelope"></i> Mensajes</a>
+                    </li>
+                    <li>
+                        <a href="contactos.html"><i class="fa fa-phone"></i> Contactos</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!-- /. NAV SIDE  -->
+        <div id="page-wrapper">
+            <div id="page-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Gestión de Tareas</h2>
+                        <h5>Administra las tareas asignadas a los empleados de manera eficiente.</h5>
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Añadir Nueva Tarea
+                            </div>
+                            <div class="panel-body">
+                                <form id="formTarea">
+                                    <div class="form-group">
+                                        <label>Descripción</label>
+                                        <input type="text" id="descripcion" class="form-control" placeholder="Ingresa la descripción de la tarea" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Empleado Asignado</label>
+                                        <input type="text" id="empleadoAsignado" class="form-control" placeholder="Ingresa el nombre del empleado" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Fecha Límite</label>
+                                        <input type="date" id="fechaLimite" class="form-control" required />
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Agregar Tarea</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Lista de Tareas
+                            </div>
+                            <div class="panel-body">
+                                <table class="table table-striped table-bordered table-hover" id="tablaTareas">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Descripción</th>
+                                            <th>Empleado Asignado</th>
+                                            <th>Fecha Límite</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Las tareas se agregarán aquí dinámicamente -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /. PAGE INNER  -->
+        </div>
+        <!-- /. PAGE WRAPPER  -->
+    </div>
+    <!-- /. WRAPPER  -->
+    <!-- SCRIPTS - AT THE BOTTOM TO REDUCE LOAD TIME -->
+    <!-- JQUERY SCRIPTS -->
+    <script src="assets/js/jquery-1.10.2.js"></script>
+    <!-- BOOTSTRAP SCRIPTS -->
+    <script src="assets/js/bootstrap.min.js"></script>
+    <!-- METISMENU SCRIPTS -->
+    <script src="assets/js/jquery.metisMenu.js"></script>
+    <!-- CUSTOM SCRIPTS -->
+    <script src="assets/js/custom.js"></script>
+
+    <!-- Script de gestión de tareas -->
+    <script>
+        let tareas = [];
+        let idTarea = 0;
+
+        // Función para agregar una nueva tarea
+        document.getElementById('formTarea').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const descripcion = document.getElementById('descripcion').value;
+            const empleadoAsignado = document.getElementById('empleadoAsignado').value;
+            const fechaLimite = document.getElementById('fechaLimite').value;
+
+            idTarea++;
+            const tarea = { id: idTarea, descripcion, empleadoAsignado, fechaLimite };
+            tareas.push(tarea);
+            agregarTareaATabla(tarea);
+            this.reset();
+        });
+
+        // Función para agregar tarea a la tabla
+        function agregarTareaATabla(tarea) {
+            const tabla = document.getElementById('tablaTareas').getElementsByTagName('tbody')[0];
+            const fila = tabla.insertRow();
+            fila.setAttribute('id', `tarea-${tarea.id}`);
+            
+            fila.innerHTML = `
+                <td>${tarea.id}</td>
+                <td>${tarea.descripcion}</td>
+                <td>${tarea.empleadoAsignado}</td>
+                <td>${tarea.fechaLimite}</td>
+                <td>
+                    <button class="btn btn-info btn-xs" onclick="editarTarea(${tarea.id})">Editar</button>
+                    <button class="btn btn-danger btn-xs" onclick="eliminarTarea(${tarea.id})">Eliminar</button>
+                </td>
+            `;
+        }
+
+        // Función para editar una tarea
+        function editarTarea(id) {
+            const tarea = tareas.find(t => t.id === id);
+            if (tarea) {
+                document.getElementById('descripcion').value = tarea.descripcion;
+                document.getElementById('empleadoAsignado').value = tarea.empleadoAsignado;
+                document.getElementById('fechaLimite').value = tarea.fechaLimite;
+
+                eliminarTarea(id); // Eliminar tarea de la lista y tabla para actualizar con los nuevos valores
+            }
+        }
+
+        // Función para eliminar una tarea
+        function eliminarTarea(id) {
+            tareas = tareas.filter(t => t.id !== id);
+            document.getElementById(`tarea-${id}`).remove();
+        }
+    </script>
+</body>
+</html>

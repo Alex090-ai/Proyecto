@@ -1,0 +1,256 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contactos - Binary Admin</title>
+    <!-- BOOTSTRAP STYLES-->
+    <link href="assets/css/bootstrap.css" rel="stylesheet" />
+    <!-- FONTAWESOME STYLES-->
+    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <!-- CUSTOM STYLES-->
+    <link href="assets/css/custom.css" rel="stylesheet" />
+    <!-- GOOGLE FONTS-->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+</head>
+<body>
+    <div id="wrapper">
+        <!-- NAVIGATION -->
+        <nav class="navbar navbar-default navbar-cls-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">Binary admin</a> 
+            </div>
+            <div style="color: white; padding: 15px 50px 5px 50px; float: right; font-size: 16px;">
+                Last access : 30 May 2014 &nbsp; <a href="#" class="btn btn-danger square-btn-adjust">Logout</a>
+            </div>
+        </nav>
+        <!-- /. NAVIGATION -->
+
+        <!-- SIDE NAVIGATION -->
+        <nav class="navbar-default navbar-side" role="navigation">
+            <div class="sidebar-collapse">
+                <ul class="nav" id="main-menu">
+                    <li>
+                        <a href="index.html"><i class="fa fa-dashboard"></i> Inicio</a>
+                    </li>
+                    <li>
+                        <a href="empleados.html"><i class="fa fa-user"></i> Empleados</a>
+                    </li>
+                    <li>
+                        <a href="tareas.html"><i class="fa fa-tasks"></i> Tareas</a>
+                    </li>
+                    <li>
+                        <a href="mensajes.html"><i class="fa fa-envelope"></i> Mensajes</a>
+                    </li>
+                    <li>
+                        <a href="contactos.html"><i class="fa fa-phone"></i> Contactos</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!-- /. SIDE NAVIGATION -->
+
+        <!-- PAGE WRAPPER -->
+        <div id="page-wrapper">
+            <div id="page-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Contactos</h2>
+                        <h5>Gestión de empleados y contactos</h5>
+                        <!-- New Menu -->
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                Menú <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#" data-toggle="modal" data-target="#addContactModal">Agregar Contacto</a></li>
+                                <li><a href="#" data-toggle="modal" data-target="#editContactModal">Editar Contacto</a></li>
+                                <li><a href="#" data-toggle="modal" data-target="#deleteContactModal">Eliminar Contacto</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#" id="exportContacts">Exportar Contactos</a></li>
+                            </ul>
+                        </div>
+                        <!-- Contact Table -->
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Correo Electrónico</th>
+                                    <th>Teléfono</th>
+                                    <th>Departamento</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Juan Pérez</td>
+                                    <td>juan.perez@ejemplo.com</td>
+                                    <td>(123) 456-7890</td>
+                                    <td>Recursos Humanos</td>
+                                </tr>
+                                <tr>
+                                    <td>María Gómez</td>
+                                    <td>maria.gomez@ejemplo.com</td>
+                                    <td>(123) 456-7891</td>
+                                    <td>IT</td>
+                                </tr>
+                                <!-- Añade más filas según sea necesario -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /. PAGE WRAPPER -->
+    </div>
+    <!-- /. WRAPPER -->
+
+    <!-- MODALS -->
+    <!-- Add Contact Modal -->
+    <div class="modal fade" id="addContactModal" tabindex="-1" role="dialog" aria-labelledby="addContactModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="addContactModalLabel">Agregar Contacto</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="addContactForm">
+                        <div class="form-group">
+                            <label for="contactName">Nombre</label>
+                            <input type="text" class="form-control" id="contactName" placeholder="Nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contactEmail">Correo Electrónico</label>
+                            <input type="email" class="form-control" id="contactEmail" placeholder="Correo Electrónico" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contactPhone">Teléfono</label>
+                            <input type="tel" class="form-control" id="contactPhone" placeholder="Teléfono">
+                        </div>
+                        <div class="form-group">
+                            <label for="contactDepartment">Departamento</label>
+                            <input type="text" class="form-control" id="contactDepartment" placeholder="Departamento">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Agregar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Contact Modal -->
+    <div class="modal fade" id="editContactModal" tabindex="-1" role="dialog" aria-labelledby="editContactModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="editContactModalLabel">Editar Contacto</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="editContactForm">
+                        <div class="form-group">
+                            <label for="editContactName">Nombre</label>
+                            <input type="text" class="form-control" id="editContactName" placeholder="Nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editContactEmail">Correo Electrónico</label>
+                            <input type="email" class="form-control" id="editContactEmail" placeholder="Correo Electrónico" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editContactPhone">Teléfono</label>
+                            <input type="tel" class="form-control" id="editContactPhone" placeholder="Teléfono">
+                        </div>
+                        <div class="form-group">
+                            <label for="editContactDepartment">Departamento</label>
+                            <input type="text" class="form-control" id="editContactDepartment" placeholder="Departamento">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Contact Confirmation Modal -->
+    <div class="modal fade" id="deleteContactModal" tabindex="-1" role="dialog" aria-labelledby="deleteContactModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="deleteContactModalLabel">Eliminar Contacto</h4>
+                </div>
+                <div class="modal-body">
+                    <p>¿Estás seguro de que quieres eliminar este contacto?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger" id="confirmDelete">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <!-- JQUERY SCRIPTS -->
+    <script src="assets/js/jquery-1.10.2.js"></script>
+    <!-- BOOTSTRAP SCRIPTS -->
+    <script src="assets/js/bootstrap.min.js"></script>
+    <!-- METISMENU SCRIPTS -->
+    <script src="assets/js/jquery.metisMenu.js"></script>
+    <!-- CUSTOM SCRIPTS -->
+    <script src="assets/js/custom.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Show Add Contact Modal
+            $('a:contains("Agregar Contacto")').click(function() {
+                $('#addContactModal').modal('show');
+            });
+
+            // Show Edit Contact Modal
+            $('a:contains("Editar Contacto")').click(function() {
+                $('#editContactModal').modal('show');
+            });
+
+            // Show Delete Contact Modal
+            $('a:contains("Eliminar Contacto")').click(function() {
+                $('#deleteContactModal').modal('show');
+            });
+
+            // Handle Add Contact Form Submission
+            $('#addContactForm').submit(function(event) {
+                event.preventDefault();
+                // Add contact via AJAX or form submission
+                alert('Contacto agregado!');
+                $('#addContactModal').modal('hide');
+            });
+
+            // Handle Edit Contact Form Submission
+            $('#editContactForm').submit(function(event) {
+                event.preventDefault();
+                // Edit contact via AJAX or form submission
+                alert('Contacto editado!');
+                $('#editContactModal').modal('hide');
+            });
+
+            // Handle Delete Contact Confirmation
+            $('#confirmDelete').click(function() {
+                // Delete contact via AJAX or form submission
+                alert('Contacto eliminado!');
+                $('#deleteContactModal').modal('hide');
+            });
+
+            // Handle Export Contacts
+            $('#exportContacts').click(function() {
+                // Export contacts logic
+                alert('Exportando contactos...');
+            });
+        });
+    </script>
+</body>
+</html>

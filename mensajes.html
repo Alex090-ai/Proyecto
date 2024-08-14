@@ -1,0 +1,180 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gestión de Mensajes</title>
+    <!-- BOOTSTRAP STYLES-->
+    <link href="assets/css/bootstrap.css" rel="stylesheet" />
+    <!-- FONTAWESOME STYLES-->
+    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <!-- CUSTOM STYLES-->
+    <link href="assets/css/custom.css" rel="stylesheet" />
+    <!-- GOOGLE FONTS-->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+</head>
+<body>
+    <div id="wrapper">
+        <nav class="navbar navbar-default navbar-cls-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="index.html">Binary Admin</a>
+            </div>
+            <div style="color: white; padding: 15px 50px 5px 50px; float: right; font-size: 16px;">
+                Último acceso: 30 May 2014 &nbsp; <a href="#" class="btn btn-danger square-btn-adjust">Cerrar sesión</a>
+            </div>
+        </nav>
+        <!-- /. NAV TOP  -->
+        <nav class="navbar-default navbar-side" role="navigation">
+            <div class="sidebar-collapse">
+                <ul class="nav" id="main-menu">
+                    <li>
+                        <a href="index.html"><i class="fa fa-dashboard"></i> Inicio</a>
+                    </li>
+                    <li>
+                        <a href="empleados.html"><i class="fa fa-user"></i> Empleados</a>
+                    </li>
+                    <li>
+                        <a href="tareas.html"><i class="fa fa-tasks"></i> Tareas</a>
+                    </li>
+                    <li>
+                        <a href="mensajes.html"><i class="fa fa-envelope"></i> Mensajes</a>
+                    </li>
+                    <li>
+                        <a href="contactos.html"><i class="fa fa-phone"></i> Contactos</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>  
+        <!-- /. NAV SIDE  -->
+        <div id="page-wrapper">
+            <div id="page-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Gestión de Mensajes</h2>
+                        <h5>Administra los mensajes de manera eficiente.</h5>
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Enviar Nuevo Mensaje
+                            </div>
+                            <div class="panel-body">
+                                <form id="formMensaje">
+                                    <div class="form-group">
+                                        <label>Asunto</label>
+                                        <input type="text" id="asunto" class="form-control" placeholder="Ingresa el asunto del mensaje" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Destinatario</label>
+                                        <input type="email" id="destinatario" class="form-control" placeholder="Ingresa el correo del destinatario" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Mensaje</label>
+                                        <textarea id="mensaje" class="form-control" rows="4" placeholder="Escribe tu mensaje aquí" required></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Enviar Mensaje</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Bandeja de Entrada
+                            </div>
+                            <div class="panel-body">
+                                <table class="table table-striped table-bordered table-hover" id="tablaMensajes">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Asunto</th>
+                                            <th>Destinatario</th>
+                                            <th>Mensaje</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Los mensajes se agregarán aquí dinámicamente -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /. PAGE INNER  -->
+        </div>
+        <!-- /. PAGE WRAPPER  -->
+    </div>
+    <!-- /. WRAPPER  -->
+    <!-- SCRIPTS - AT THE BOTTOM TO REDUCE LOAD TIME -->
+    <!-- JQUERY SCRIPTS -->
+    <script src="assets/js/jquery-1.10.2.js"></script>
+    <!-- BOOTSTRAP SCRIPTS -->
+    <script src="assets/js/bootstrap.min.js"></script>
+    <!-- METISMENU SCRIPTS -->
+    <script src="assets/js/jquery.metisMenu.js"></script>
+    <!-- CUSTOM SCRIPTS -->
+    <script src="assets/js/custom.js"></script>
+
+    <!-- Script de gestión de mensajes -->
+    <script>
+        let mensajes = [];
+        let idMensaje = 0;
+
+        // Función para agregar un nuevo mensaje
+        document.getElementById('formMensaje').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const asunto = document.getElementById('asunto').value;
+            const destinatario = document.getElementById('destinatario').value;
+            const mensaje = document.getElementById('mensaje').value;
+
+            idMensaje++;
+            const nuevoMensaje = { id: idMensaje, asunto, destinatario, mensaje };
+            mensajes.push(nuevoMensaje);
+            agregarMensajeATabla(nuevoMensaje);
+            this.reset();
+        });
+
+        // Función para agregar mensaje a la tabla
+        function agregarMensajeATabla(mensaje) {
+            const tabla = document.getElementById('tablaMensajes').getElementsByTagName('tbody')[0];
+            const fila = tabla.insertRow();
+            fila.setAttribute('id', `mensaje-${mensaje.id}`);
+            
+            fila.innerHTML = `
+                <td>${mensaje.id}</td>
+                <td>${mensaje.asunto}</td>
+                <td>${mensaje.destinatario}</td>
+                <td>${mensaje.mensaje}</td>
+                <td>
+                    <button class="btn btn-info btn-xs" onclick="editarMensaje(${mensaje.id})">Editar</button>
+                    <button class="btn btn-danger btn-xs" onclick="eliminarMensaje(${mensaje.id})">Eliminar</button>
+                </td>
+            `;
+        }
+
+        // Función para editar un mensaje
+        function editarMensaje(id) {
+            const mensaje = mensajes.find(m => m.id === id);
+            if (mensaje) {
+                document.getElementById('asunto').value = mensaje.asunto;
+                document.getElementById('destinatario').value = mensaje.destinatario;
+                document.getElementById('mensaje').value = mensaje.mensaje;
+
+                eliminarMensaje(id); // Eliminar mensaje de la lista y tabla para actualizar con los nuevos valores
+            }
+        }
+
+        // Función para eliminar un mensaje
+        function eliminarMensaje(id) {
+            mensajes = mensajes.filter(m => m.id !== id);
+            document.getElementById(`mensaje-${id}`).remove();
+        }
+    </script>
+</body>
+</html>

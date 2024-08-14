@@ -1,0 +1,188 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gestión de Empleados</title>
+    <!-- BOOTSTRAP STYLES-->
+    <link href="assets/css/bootstrap.css" rel="stylesheet" />
+    <!-- FONTAWESOME STYLES-->
+    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <!-- CUSTOM STYLES-->
+    <link href="assets/css/custom.css" rel="stylesheet" />
+    <!-- GOOGLE FONTS-->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+</head>
+<body>
+    <div id="wrapper">
+        <nav class="navbar navbar-default navbar-cls-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="index.html">Binary Admin</a>
+            </div>
+            <div style="color: white; padding: 15px 50px 5px 50px; float: right; font-size: 16px;">
+                Último acceso: 30 May 2014 &nbsp; <a href="#" class="btn btn-danger square-btn-adjust">Cerrar sesión</a>
+            </div>
+        </nav>
+        <!-- /. NAV TOP  -->
+        <nav class="navbar-default navbar-side" role="navigation">
+            <div class="sidebar-collapse">
+                <ul class="nav" id="main-menu">
+                    <li>
+                        <a href="index.html"><i class="fa fa-dashboard"></i> Inicio</a>
+                    </li>
+                    <li>
+                        <a href="empleados.html"><i class="fa fa-user"></i> Empleados</a>
+                    </li>
+                    <li>
+                        <a href="tareas.html"><i class="fa fa-tasks"></i> Tareas</a>
+                    </li>
+                    <li>
+                        <a href="mensajes.html"><i class="fa fa-envelope"></i> Mensajes</a>
+                    </li>
+                    <li>
+                        <a href="contactos.html"><i class="fa fa-phone"></i> Contactos</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!-- /. NAV SIDE  -->
+        <div id="page-wrapper">
+            <div id="page-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Gestión de Empleados</h2>
+                        <h5>Administra los datos de los empleados de manera eficiente.</h5>
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Añadir Nuevo Empleado
+                            </div>
+                            <div class="panel-body">
+                                <form id="formEmpleado">
+                                    <div class="form-group">
+                                        <label>Nombre</label>
+                                        <input type="text" id="nombre" class="form-control" placeholder="Ingresa el nombre" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Posición</label>
+                                        <input type="text" id="posicion" class="form-control" placeholder="Ingresa la posición" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Departamento</label>
+                                        <input type="text" id="departamento" class="form-control" placeholder="Ingresa el departamento" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Salario</label>
+                                        <input type="number" id="salario" class="form-control" placeholder="Ingresa el salario" required />
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Agregar Empleado</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Lista de Empleados
+                            </div>
+                            <div class="panel-body">
+                                <table class="table table-striped table-bordered table-hover" id="tablaEmpleados">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Nombre</th>
+                                            <th>Posición</th>
+                                            <th>Departamento</th>
+                                            <th>Salario</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Los empleados se agregarán aquí dinámicamente -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /. PAGE INNER  -->
+        </div>
+        <!-- /. PAGE WRAPPER  -->
+    </div>
+    <!-- /. WRAPPER  -->
+    <!-- SCRIPTS - AT THE BOTTOM TO REDUCE LOAD TIME -->
+    <!-- JQUERY SCRIPTS -->
+    <script src="assets/js/jquery-1.10.2.js"></script>
+    <!-- BOOTSTRAP SCRIPTS -->
+    <script src="assets/js/bootstrap.min.js"></script>
+    <!-- METISMENU SCRIPTS -->
+    <script src="assets/js/jquery.metisMenu.js"></script>
+    <!-- CUSTOM SCRIPTS -->
+    <script src="assets/js/custom.js"></script>
+
+    <!-- Script de gestión de empleados -->
+    <script>
+        let empleados = [];
+        let idEmpleado = 0;
+
+        // Función para agregar un nuevo empleado
+        document.getElementById('formEmpleado').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            let nombre = document.getElementById('nombre').value;
+            let posicion = document.getElementById('posicion').value;
+            let departamento = document.getElementById('departamento').value;
+            let salario = document.getElementById('salario').value;
+
+            idEmpleado++;
+            let empleado = { id: idEmpleado, nombre, posicion, departamento, salario };
+            empleados.push(empleado);
+            agregarEmpleadoATabla(empleado);
+            this.reset();
+        });
+
+        // Función para agregar empleado a la tabla
+        function agregarEmpleadoATabla(empleado) {
+            let tabla = document.getElementById('tablaEmpleados').getElementsByTagName('tbody')[0];
+            let fila = tabla.insertRow();
+            fila.setAttribute('id', `empleado-${empleado.id}`);
+            
+            fila.innerHTML = `
+                <td>${empleado.id}</td>
+                <td>${empleado.nombre}</td>
+                <td>${empleado.posicion}</td>
+                <td>${empleado.departamento}</td>
+                <td>${empleado.salario}</td>
+                <td>
+                    <button class="btn btn-info btn-xs" onclick="editarEmpleado(${empleado.id})">Editar</button>
+                    <button class="btn btn-danger btn-xs" onclick="eliminarEmpleado(${empleado.id})">Eliminar</button>
+                </td>
+            `;
+        }
+
+        // Función para editar un empleado
+        function editarEmpleado(id) {
+            let empleado = empleados.find(emp => emp.id === id);
+            if (empleado) {
+                document.getElementById('nombre').value = empleado.nombre;
+                document.getElementById('posicion').value = empleado.posicion;
+                document.getElementById('departamento').value = empleado.departamento;
+                document.getElementById('salario').value = empleado.salario;
+
+                eliminarEmpleado(id); // Eliminar empleado de la lista y tabla para actualizar con los nuevos valores
+            }
+        }
+
+        // Función para eliminar un empleado
+        function eliminarEmpleado(id) {
+            empleados = empleados.filter(emp => emp.id !== id);
+            document.getElementById(`empleado-${id}`).remove();
+        }
+    </script>
+</body>
+</html>
